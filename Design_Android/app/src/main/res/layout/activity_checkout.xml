@@ -29,7 +29,7 @@
             android:textColor="@color/color_text_title"
             android:padding="14dp"
             android:inputType="textPersonName|textCapWords"
-            android:imeOptions="actionNext" />
+            android:imeOptions="actionNext|flagNoExtractUi" />
 
         <EditText
             android:id="@+id/edtEmail"
@@ -43,7 +43,7 @@
             android:textColor="@color/color_text_title"
             android:padding="14dp"
             android:inputType="textEmailAddress"
-            android:imeOptions="actionNext" />
+            android:imeOptions="actionNext|flagNoExtractUi" />
 
         <EditText
             android:id="@+id/edtPhone"
@@ -57,7 +57,7 @@
             android:textColor="@color/color_text_title"
             android:padding="14dp"
             android:inputType="phone"
-            android:imeOptions="actionDone" />
+            android:imeOptions="actionDone|flagNoExtractUi" />
 
         <TextView
             android:layout_width="match_parent"
