@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_bg_screen"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/banner_description"
+            android:src="@mipmap/ic_launcher" />
+
+        <EditText
+            android:id="@+id/edtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/hint_name"
+            android:textColorHint="@color/color_text_hint"
+            android:textColor="@color/color_text_title"
+            android:padding="14dp"
+            android:inputType="textPersonName|textCapWords"
+            android:imeOptions="actionNext" />
+
+        <EditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/hint_email"
+            android:textColorHint="@color/color_text_hint"
+            android:textColor="@color/color_text_title"
+            android:padding="14dp"
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionNext" />
+
+        <EditText
+            android:id="@+id/edtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/hint_phone"
+            android:textColorHint="@color/color_text_hint"
+            android:textColor="@color/color_text_title"
+            android:padding="14dp"
+            android:inputType="phone"
+            android:imeOptions="actionDone" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/course_title"
+            android:textColor="@color/color_text_title"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/course_price"
+            android:textColor="@color/color_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/course_duration"
+            android:textColor="@color/color_text_body"
+            android:textSize="13sp" />
+
+        <RadioGroup
+            android:id="@+id/rgShift"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rbMorning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:buttonTint="@color/color_primary"
+                android:text="@string/shift_morning"
+                android:textColor="@color/color_text_body" />
+
+            <RadioButton
+                android:id="@+id/rbAfternoon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/color_primary"
+                android:text="@string/shift_afternoon"
+                android:textColor="@color/color_text_body" />
+
+            <RadioButton
+                android:id="@+id/rbEvening"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="@color/color_primary"
+                android:text="@string/shift_evening"
+                android:textColor="@color/color_text_body" />
+        </RadioGroup>
+
+        <CheckBox
+            android:id="@+id/cbBook"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:buttonTint="@color/color_primary"
+            android:text="@string/addon_book"
+            android:textColor="@color/color_text_body" />
+
+        <CheckBox
+            android:id="@+id/cbMentor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:buttonTint="@color/color_primary"
+            android:text="@string/addon_mentor"
+            android:textColor="@color/color_text_body" />
+
+        <CheckBox
+            android:id="@+id/cbTerms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:buttonTint="@color/color_primary"
+            android:text="@string/terms_agree"
+            android:textColor="@color/color_text_body"
+            android:textSize="13sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirm"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="24dp"
+            android:enabled="false"
+            android:text="@string/btn_confirm"
+            android:textColor="@color/color_surface"
+            app:backgroundTint="@color/color_primary"
+            app:cornerRadius="12dp"
+            app:elevation="4dp"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,21 @@
+<resources>
+    <string name="course_title">Chuyên Đề Lập Trình Android Native Chuyên Sâu: Kiến Trúc Clean Architecture &amp; Jetpack 2026</string>
+    <string name="course_price">3.500.000 VNĐ</string>
+    <string name="course_duration">Thời lượng: 12 buổi (36 giờ học)</string>
+    <string name="banner_description">Banner khóa học lập trình Android</string>
+
+    <string name="hint_name">Nhập họ và tên học viên</string>
+    <string name="hint_email">Nhập email nhận vé điện tử</string>
+    <string name="hint_phone">Số điện thoại liên hệ</string>
+
+    <string name="shift_morning">Ca Sáng (08:30 - 11:30)</string>
+    <string name="shift_afternoon">Ca Chiều (14:00 - 17:00)</string>
+    <string name="shift_evening">Ca Tối (18:30 - 21:30)</string>
+
+    <string name="addon_book">Nhận giáo trình bìa cứng in màu tại lớp (+150.000đ)</string>
+    <string name="addon_mentor">Gói cố vấn nghề nghiệp 1-1 với Senior Engineer (+500.000đ)</string>
+
+    <string name="terms_agree">Tôi cam kết tham gia đầy đủ các buổi học và tuân thủ nội quy đào tạo</string>
+    <string name="btn_confirm">XÁC NHẬN ĐẶT CHỖ &amp; THANH TOÁN</string>
+    <string name="app_name">Design_Android</string>
+</resources>
