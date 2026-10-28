@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_bg_screen"
+    android:orientation="horizontal">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:contentDescription="@string/banner_description"
+                android:scaleType="centerCrop"
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@string/course_title"
+                android:textColor="@color/color_text_title"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/course_price"
+                android:textColor="@color/color_primary"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/course_duration"
+                android:textColor="@color/color_text_body"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="0.6">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/hint_name"
+                android:imeOptions="actionNext|flagNoExtractUi"
+                android:inputType="textPersonName|textCapWords"
+                android:padding="14dp"
+                android:textColor="@color/color_text_title"
+                android:textColorHint="@color/color_text_hint" />
+
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/hint_email"
+                android:imeOptions="actionNext|flagNoExtractUi"
+                android:inputType="textEmailAddress"
+                android:padding="14dp"
+                android:textColor="@color/color_text_title"
+                android:textColorHint="@color/color_text_hint" />
+
+            <EditText
+                android:id="@+id/edtPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/hint_phone"
+                android:imeOptions="actionDone|flagNoExtractUi"
+                android:inputType="phone"
+                android:padding="14dp"
+                android:textColor="@color/color_text_title"
+                android:textColorHint="@color/color_text_hint" />
+
+            <RadioGroup
+                android:id="@+id/rgShift"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rbMorning"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/color_primary"
+                    android:checked="true"
+                    android:text="@string/shift_morning"
+                    android:textColor="@color/color_text_body" />
+
+                <RadioButton
+                    android:id="@+id/rbAfternoon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/color_primary"
+                    android:text="@string/shift_afternoon"
+                    android:textColor="@color/color_text_body" />
+
+                <RadioButton
+                    android:id="@+id/rbEvening"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/color_primary"
+                    android:text="@string/shift_evening"
+                    android:textColor="@color/color_text_body" />
+            </RadioGroup>
+
+            <CheckBox
+                android:id="@+id/cbBook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:buttonTint="@color/color_primary"
+                android:text="@string/addon_book"
+                android:textColor="@color/color_text_body" />
+
+            <CheckBox
+                android:id="@+id/cbMentor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:buttonTint="@color/color_primary"
+                android:text="@string/addon_mentor"
+                android:textColor="@color/color_text_body" />
+
+            <CheckBox
+                android:id="@+id/cbTerms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:buttonTint="@color/color_primary"
+                android:text="@string/terms_agree"
+                android:textColor="@color/color_text_body"
+                android:textSize="13sp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="24dp"
+                android:enabled="false"
+                android:text="@string/btn_confirm"
+                android:textColor="@color/color_surface"
+                app:backgroundTint="@color/color_primary"
+                app:cornerRadius="12dp"
+                app:elevation="4dp"
+                app:icon="@drawable/ic_check"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
