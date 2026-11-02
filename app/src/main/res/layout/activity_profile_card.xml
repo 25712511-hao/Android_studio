@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:padding="24dp">
+
+    <ImageView
+        android:id="@+id/ImageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="56dp"
+        android:contentDescription="Hình ảnh thành phố Uruk"
+        android:scaleType="centerCrop"
+        android:src="@drawable/image2"
+        app:layout_constraintDimensionRatio="16:9"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvBio"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:justificationMode="inter_word"
+        android:lineSpacingExtra="6dp"
+        android:text="Uruk (nay là Warka, tỉnh Muthanna, Iraq) là một thành phố cổ ở miền nam Lưỡng Hà, được xem là một trong những đô thị đầu tiên của nhân loại. Thành phố hình thành khoảng năm 5000 TCN và đóng vai trò dẫn đầu trong quá trình đô thị hóa của Sumer vào giữa thiên niên kỷ thứ 4 TCN. Vào thời đỉnh cao khoảng năm 2900 TCN, Uruk có chừng 50.000 đến 80.000 cư dân sống trong khu vực có tường thành rộng khoảng 6 km², là thành phố lớn nhất thế giới lúc bấy giờ. Đây cũng là quê hương của vị vua huyền thoại Gilgamesh và là nơi chữ viết sơ khai xuất hiện. Thành phố bị bỏ hoang hoàn toàn vào khoảng năm 700 sau Công nguyên."
+        android:textColor="#757575"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvName" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Uruk"
+        android:textColor="#757575"
+        android:textSize="28sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ImageView" />
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="8dp"
+        android:text="Xem thêm"
+        app:layout_constraintEnd_toStartOf="@id/btn2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvBio" />
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="52dp"
+        android:text="Lưu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn1"
+        app:layout_constraintTop_toBottomOf="@id/tvBio" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

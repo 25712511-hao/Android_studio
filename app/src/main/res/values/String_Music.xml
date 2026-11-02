@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="player_title">UAMP</string>
+    <string name="album_cover_desc">Ảnh bìa album</string>
+    <string name="song_title">Drop and Roll</string>
+    <string name="song_artist">Silent Partner</string>
+    <string name="time_current">1:01</string>
+    <string name="time_total">2:01</string>
+    <string name="btn_shuffle_desc">Xáo trộn</string>
+    <string name="btn_prev_desc">Bài trước</string>
+    <string name="btn_play_desc">Phát hoặc tạm dừng</string>
+    <string name="btn_next_desc">Bài kế tiếp</string>
+    <string name="btn_repeat_desc">Lặp lại</string>
+</resources>
