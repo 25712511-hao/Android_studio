@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Grab_App_UI</string>
+    <string name="login_tagline">Your everyday everything app</string>
+    <string name="login_button">Log In</string>
+    <string name="signup_button">New to Grab? Sign up!</string>
+    <string name="verify_receive">Didn’t receive it?</string>
+    <string name="verify_title">Enter the 6-digit code sent to:</string>
+    <string name="verify_clear">Clean Code</string>
+    <string name="verify_back">Button Back</string>
+    <string name="welcome_phone_number">Welcome! What’s your mobile number?</string>
+    <string name="text_phone_number">With a valid number, you can access rides, deliveries, and our other services.</string>
+</resources>

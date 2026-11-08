@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="greenGrap">#58BA6B</color>
+    <color name="button_green">#4FAE5A</color>
+    <color name="text_signup">#676767</color>
+    <color name="gray">#C5C5C5</color>
+</resources>
