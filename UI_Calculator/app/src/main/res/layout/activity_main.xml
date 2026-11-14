@@ -24,8 +24,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <!-- Timeout: label + percent + progress bar (10 seconds) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -62,7 +60,6 @@
             android:progress="0"
             android:progressDrawable="@drawable/progress_timeout" />
 
-        <!-- Display: expression + result, takes the spare height -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -97,8 +94,6 @@
                 app:autoSizeMinTextSize="20sp"
                 app:autoSizeTextType="uniform" />
         </LinearLayout>
-
-        <!-- Keypad: 4 equal columns (chain on row 1, other rows align to it), every key is a square -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/keypad"
             android:layout_width="match_parent"
