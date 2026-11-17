@@ -1,14 +1,11 @@
 package com.example.ui_calculator_app;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -19,25 +16,27 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.util.Locale;
+public class MainActivity extends AppCompatActivity
+        implements View.OnClickListener, InputTimeout.Listener {
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final int[] DIGIT_IDS = {
+            R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
+            R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9
+    };
+    private static final int[] OTHER_KEY_IDS = {
+            R.id.btnDot, R.id.btnDiv, R.id.btnMul, R.id.btnMinus, R.id.btnPlus,
+            R.id.btnClear, R.id.btnDelete, R.id.btnEqual,
+            R.id.btnE, R.id.btnMu, R.id.btnSin, R.id.btnDeg
+    };
 
-    private static final long TIMEOUT_MS = 10_000L;
-    private static final int PROGRESS_MAX = 1000;
+    private final CalculatorActivity engine = new CalculatorActivity();
+    private InputTimeout timeout;
 
     private TextView txtExpression;
     private TextView txtResult;
     private TextView txtPercent;
     private ProgressBar pbTimeout;
-
-    private final StringBuilder expression = new StringBuilder();
-    private boolean justCalculated = false;
-    private ValueAnimator timeoutAnimator;
-    private boolean animatorCancelled = false;
+    private Button btnDeg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,276 +50,108 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return windowInsets;
         });
 
+        bindViews();
+        bindKeys();
+        timeout = new InputTimeout(this);
+        render();
+    }
+
+    private void bindViews() {
         txtExpression = findViewById(R.id.txtExpression);
         txtResult = findViewById(R.id.txtResult);
         txtPercent = findViewById(R.id.txtPercent);
         pbTimeout = findViewById(R.id.pbTimeout);
+        btnDeg = findViewById(R.id.btnDeg);
+    }
 
-        int[] keyIds = {
-                R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
-                R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9,
-                R.id.btnDot, R.id.btnDiv, R.id.btnMul, R.id.btnMinus, R.id.btnPlus,
-                R.id.btnClear, R.id.btnDelete, R.id.btnEqual
-        };
-        for (int id : keyIds) {
-            findViewById(id).setOnClickListener(this);
-        }
-
-        updateDisplay();
-        resetTimeoutUi();
+    private void bindKeys() {
+        for (int id : DIGIT_IDS) findViewById(id).setOnClickListener(this);
+        for (int id : OTHER_KEY_IDS) findViewById(id).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         int id = v.getId();
 
-        if (id == R.id.btn0) appendDigit("0");
-        else if (id == R.id.btn1) appendDigit("1");
-        else if (id == R.id.btn2) appendDigit("2");
-        else if (id == R.id.btn3) appendDigit("3");
-        else if (id == R.id.btn4) appendDigit("4");
-        else if (id == R.id.btn5) appendDigit("5");
-        else if (id == R.id.btn6) appendDigit("6");
-        else if (id == R.id.btn7) appendDigit("7");
-        else if (id == R.id.btn8) appendDigit("8");
-        else if (id == R.id.btn9) appendDigit("9");
-        else if (id == R.id.btnDot) appendDot();
-        else if (id == R.id.btnDiv) appendOperator('/');
-        else if (id == R.id.btnMul) appendOperator('*');
-        else if (id == R.id.btnMinus) appendOperator('-');
-        else if (id == R.id.btnPlus) appendOperator('+');
-        else if (id == R.id.btnClear) resetCalculator();
-        else if (id == R.id.btnDelete) deleteLastChar();
-        else if (id == R.id.btnEqual) executeCalculation();
+        int digit = digitOf(id);
+        if (digit >= 0) {
+            engine.pressDigit((char) ('0' + digit));
+        } else if (id == R.id.btnDot) engine.pressDot();
+        else if (id == R.id.btnDiv) engine.pressOperator('/');
+        else if (id == R.id.btnMul) engine.pressOperator('*');
+        else if (id == R.id.btnMinus) engine.pressOperator('-');
+        else if (id == R.id.btnPlus) engine.pressOperator('+');
+        else if (id == R.id.btnE) engine.pressConstant(ExpressionParser.CHAR_E);
+        else if (id == R.id.btnMu) engine.pressConstant(ExpressionParser.CHAR_MU);
+        else if (id == R.id.btnSin) engine.pressSin();
+        else if (id == R.id.btnDeg) engine.toggleAngleMode();
+        else if (id == R.id.btnDelete) engine.pressDelete();
+        else if (id == R.id.btnClear) engine.clear();
+        else if (id == R.id.btnEqual) engine.pressEqual();
+
+        syncTimeout();
+        render();
     }
 
-
-    private void appendDigit(String digit) {
-        if (justCalculated) {
-            expression.setLength(0);
-            txtResult.setText("");
-            justCalculated = false;
+    private static int digitOf(int viewId) {
+        for (int i = 0; i < DIGIT_IDS.length; i++) {
+            if (DIGIT_IDS[i] == viewId) return i;
         }
-        expression.append(digit);
-        startTimeoutIfNeeded();
-        updateDisplay();
+        return -1;
     }
 
-    private void appendDot() {
-        if (justCalculated) {
-            expression.setLength(0);
-            txtResult.setText("");
-            justCalculated = false;
-        }
-        int i = expression.length() - 1;
-        while (i >= 0 && (Character.isDigit(expression.charAt(i)) || expression.charAt(i) == '.')) {
-            if (expression.charAt(i) == '.') return;
-            i--;
-        }
-        if (expression.length() == 0 || isOperator(expression.charAt(expression.length() - 1))) {
-            expression.append("0");
-        }
-        expression.append(".");
-        startTimeoutIfNeeded();
-        updateDisplay();
-    }
-
-    private void appendOperator(char op) {
-        if (justCalculated) {
-            String raw = lastRawResult;
-            expression.setLength(0);
-            expression.append(raw);
-            txtResult.setText("");
-            justCalculated = false;
-        }
-        if (expression.length() > 0) {
-            char last = expression.charAt(expression.length() - 1);
-            if (isOperator(last)) {
-                expression.setCharAt(expression.length() - 1, op);
-                updateDisplay();
-                return;
-            }
-            if (last == '.') expression.append('0');
-        }
-        expression.append(op);
-        startTimeoutIfNeeded();
-        updateDisplay();
-    }
-
-    private void deleteLastChar() {
-        if (justCalculated) {
-            txtResult.setText("");
-            justCalculated = false;
-        }
-        if (expression.length() > 0) {
-            expression.deleteCharAt(expression.length() - 1);
-        }
-        if (expression.length() == 0) {
-            stopTimeout();
-            resetTimeoutUi();
-        }
-        updateDisplay();
-    }
-
-    private void resetCalculator() {
-        expression.setLength(0);
-        justCalculated = false;
-        lastRawResult = "";
-        stopTimeout();
-        resetTimeoutUi();
-        txtResult.setText("");
-        updateDisplay();
-    }
-
-    private String lastRawResult = "";
-
-    private void executeCalculation() {
-        if (expression.length() == 0 || justCalculated) return;
-
-        String expr = expression.toString();
-
-
-        stopTimeout();
-
-        try {
-            double value = new Parser(expr).parse();
-            if (Double.isNaN(value) || Double.isInfinite(value)) {
-                throw new ArithmeticException("invalid");
-            }
-            DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("vi", "VN"));
-            DecimalFormat df = new DecimalFormat("#,##0.##########", symbols);
-            txtResult.setText("=" + df.format(value));
-            lastRawResult = BigDecimal.valueOf(value).stripTrailingZeros().toPlainString();
-            justCalculated = true;
-        } catch (ArithmeticException | NumberFormatException e) {
-            txtResult.setText("Lỗi");
-            lastRawResult = "";
-            justCalculated = true;
-        }
-        updateDisplay();
-    }
-
-    private static class Parser {
-        private final String s;
-        private int pos = 0;
-
-        Parser(String s) { this.s = s; }
-
-        double parse() {
-            double v = parseExpression();
-            if (pos != s.length()) throw new NumberFormatException("unexpected: " + s.charAt(pos));
-            return v;
-        }
-
-        private double parseExpression() {
-            double v = parseTerm();
-            while (pos < s.length() && (s.charAt(pos) == '+' || s.charAt(pos) == '-')) {
-                char op = s.charAt(pos++);
-                double r = parseTerm();
-                v = (op == '+') ? v + r : v - r;
-            }
-            return v;
-        }
-
-        private double parseTerm() {
-            double v = parseFactor();
-            while (pos < s.length() && (s.charAt(pos) == '*' || s.charAt(pos) == '/')) {
-                char op = s.charAt(pos++);
-                double r = parseFactor();
-                if (op == '*') {
-                    v *= r;
-                } else {
-                    if (r == 0) throw new ArithmeticException("div by zero");
-                    v /= r;
-                }
-            }
-            return v;
-        }
-
-        private double parseFactor() {
-            if (pos < s.length() && s.charAt(pos) == '-') {
-                pos++;
-                return -parseFactor();
-            }
-            if (pos < s.length() && s.charAt(pos) == '+') {
-                pos++;
-                return parseFactor();
-            }
-            int start = pos;
-            while (pos < s.length() && (Character.isDigit(s.charAt(pos)) || s.charAt(pos) == '.')) pos++;
-            if (start == pos) throw new NumberFormatException("number expected");
-            return Double.parseDouble(s.substring(start, pos));
+    private void syncTimeout() {
+        if (engine.isEditingNonEmpty()) {
+            timeout.startIfNotRunning();
+        } else if (engine.getStatus() != CalculatorActivity.Status.EDITING) {
+            timeout.pause();
+        } else {
+            timeout.stop();
         }
     }
 
-    private boolean isOperator(char c) {
-        return c == '+' || c == '-' || c == '*' || c == '/';
+    @Override
+    public void onProgress(int progress) {
+        pbTimeout.setProgress(progress);
+        txtPercent.setText((progress / 10) + "%");
     }
 
-    private void updateDisplay() {
-        SpannableString styled = new SpannableString(expression.toString());
-        int blue = ContextCompat.getColor(this, R.color.accent);
+    @Override
+    public void onExpired() {
+        engine.clear();
+        render();
+        onProgress(0);
+    }
+
+    private void render() {
+        renderExpression();
+        renderResult();
+        btnDeg.setText(engine.isDegreeMode() ? "rad" : "deg");
+    }
+
+    private void renderExpression() {
+        SpannableString styled = new SpannableString(engine.getExpression());
+        int accent = ContextCompat.getColor(this, R.color.accent);
         for (int i = 0; i < styled.length(); i++) {
-            if (isOperator(styled.charAt(i))) {
-                styled.setSpan(new ForegroundColorSpan(blue), i, i + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (ExpressionParser.isOperator(styled.charAt(i))) {
+                styled.setSpan(new ForegroundColorSpan(accent), i, i + 1,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
         txtExpression.setText(styled);
     }
 
-    private void startTimeoutIfNeeded() {
-        if (timeoutAnimator != null && timeoutAnimator.isRunning()) return;
-
-        animatorCancelled = false;
-        timeoutAnimator = ValueAnimator.ofInt(0, PROGRESS_MAX);
-        timeoutAnimator.setDuration(TIMEOUT_MS);
-        timeoutAnimator.setInterpolator(new LinearInterpolator());
-        timeoutAnimator.addUpdateListener(animation -> {
-            int progress = (int) animation.getAnimatedValue();
-            pbTimeout.setProgress(progress);
-            txtPercent.setText((progress / 10) + "%");
-        });
-        timeoutAnimator.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationCancel(Animator animation) {
-                animatorCancelled = true;
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (animatorCancelled) return;
-                onTimeoutExpired();
-            }
-        });
-        timeoutAnimator.start();
-    }
-
-    private void stopTimeout() {
-        if (timeoutAnimator != null) {
-            animatorCancelled = true;
-            timeoutAnimator.cancel();
-            timeoutAnimator = null;
+    private void renderResult() {
+        if (engine.getStatus() == CalculatorActivity.Status.ERROR) {
+            txtResult.setText("Lỗi");
+        } else {
+            txtResult.setText(engine.getFormattedResult());
         }
-    }
-
-    private void onTimeoutExpired() {
-        timeoutAnimator = null;
-        expression.setLength(0);
-        justCalculated = false;
-        lastRawResult = "";
-        txtResult.setText("");
-        updateDisplay();
-        resetTimeoutUi();
-    }
-
-    private void resetTimeoutUi() {
-        pbTimeout.setProgress(0);
-        txtPercent.setText("0%");
     }
 
     @Override
     protected void onDestroy() {
-        stopTimeout();
+        timeout.stop();
         super.onDestroy();
     }
 }
