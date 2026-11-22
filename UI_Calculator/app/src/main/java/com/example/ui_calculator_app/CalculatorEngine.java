@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-public class CalculatorActivity {
+public class CalculatorEngine {
 
     public enum Status { EDITING, RESULT, ERROR }
 
@@ -16,12 +16,15 @@ public class CalculatorActivity {
     private final StringBuilder expression = new StringBuilder();
     private Status status = Status.EDITING;
     private String formattedResult = "";
+    private String errorMessage = "";
     private String rawResult = "";
     private boolean degreeMode = false;
 
+    public String getErrorMessage() { return errorMessage; }
     public String getExpression() { return expression.toString(); }
     public String getFormattedResult() { return formattedResult; }
     public Status getStatus() { return status; }
+    public String getRawResult() { return rawResult; }
     public boolean isDegreeMode() { return degreeMode; }
 
     public boolean isEditingNonEmpty() {
@@ -85,6 +88,7 @@ public class CalculatorActivity {
         if (status != Status.EDITING) {
             status = Status.EDITING;
             formattedResult = "";
+            errorMessage = "";
         }
         if (endsWithFunction()) {
             expression.setLength(expression.length() - ExpressionParser.FUNC_SIN.length());
@@ -93,11 +97,23 @@ public class CalculatorActivity {
         }
     }
 
+    public void restore(String savedExpression, Status savedStatus, String savedFormatted,
+                        String savedRaw, String savedError, boolean savedDegreeMode) {
+        expression.setLength(0);
+        expression.append(savedExpression);
+        status = savedStatus;
+        formattedResult = savedFormatted;
+        rawResult = savedRaw;
+        errorMessage = savedError;
+        degreeMode = savedDegreeMode;
+    }
+
     public void clear() {
         expression.setLength(0);
         formattedResult = "";
         rawResult = "";
         status = Status.EDITING;
+        errorMessage = "";
     }
 
     public void pressEqual() {
@@ -109,18 +125,28 @@ public class CalculatorActivity {
         try {
             double value = ExpressionParser.evaluate(expression.toString(), degreeMode);
             if (Double.isNaN(value) || Double.isInfinite(value)) {
-                throw new ArithmeticException("Kết quả không hợp lệ");
+                setError("Kết quả không hợp lệ");
+                return;
             }
             BigDecimal rounded = BigDecimal.valueOf(value).setScale(RESULT_SCALE, RoundingMode.HALF_UP);
             rawResult = rounded.stripTrailingZeros().toPlainString();
             formattedResult = "=" + formatter().format(rounded);
+            errorMessage = "";
             status = Status.RESULT;
-        } catch (ArithmeticException | NumberFormatException e) {
-            formattedResult = "";
-            rawResult = "";
-            status = Status.ERROR;
+        } catch (ArithmeticException e) {
+            setError("Không thể chia cho 0");
+        } catch (NumberFormatException e) {
+            setError("Biểu thức chưa hợp lệ");
         }
     }
+
+    private void setError(String message) {
+        formattedResult = "";
+        rawResult = "";
+        errorMessage = message;
+        status = Status.ERROR;
+    }
+
     private void startNewInputIfFinished() {
         if (status != Status.EDITING) clear();
     }

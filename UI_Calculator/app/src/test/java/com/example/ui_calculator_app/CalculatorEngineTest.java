@@ -7,13 +7,13 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-public class CalculatorActivityTest {
+public class CalculatorEngineTest {
 
-    private CalculatorActivity engine;
+    private CalculatorEngine engine;
 
     @Before
     public void setUp() {
-        engine = new CalculatorActivity();
+        engine = new CalculatorEngine();
     }
 
     private void type(String keys) {
@@ -35,7 +35,7 @@ public class CalculatorActivityTest {
     public void addsAndShowsResult() {
         type("12+30=");
         assertEquals("=42", engine.getFormattedResult());
-        assertEquals(CalculatorActivity.Status.RESULT, engine.getStatus());
+        assertEquals(CalculatorEngine.Status.RESULT, engine.getStatus());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class CalculatorActivityTest {
     @Test
     public void divisionByZeroShowsError() {
         type("5/0=");
-        assertEquals(CalculatorActivity.Status.ERROR, engine.getStatus());
+        assertEquals(CalculatorEngine.Status.ERROR, engine.getStatus());
     }
 
     @Test
@@ -62,17 +62,17 @@ public class CalculatorActivityTest {
         assertEquals("=-5", engine.getFormattedResult());
         engine.clear();
         type("*5=");
-        assertEquals(CalculatorActivity.Status.ERROR, engine.getStatus());
+        assertEquals(CalculatorEngine.Status.ERROR, engine.getStatus());
         engine.clear();
         type("/5=");
-        assertEquals(CalculatorActivity.Status.ERROR, engine.getStatus());
+        assertEquals(CalculatorEngine.Status.ERROR, engine.getStatus());
     }
 
     @Test
     public void digitAfterResultStartsNewInput() {
         type("2+2=7");
         assertEquals("7", engine.getExpression());
-        assertEquals(CalculatorActivity.Status.EDITING, engine.getStatus());
+        assertEquals(CalculatorEngine.Status.EDITING, engine.getStatus());
     }
 
     @Test
@@ -165,5 +165,59 @@ public class CalculatorActivityTest {
         engine.toggleAngleMode();
         engine.clear();
         assertFalse(engine.isDegreeMode());
+    }
+    @Test
+    public void divisionByZeroHasSpecificMessage() {
+        type("5/0=");
+        assertEquals("Không thể chia cho 0", engine.getErrorMessage());
+    }
+
+    @Test
+    public void malformedExpressionHasSpecificMessage() {
+        type("5+=");
+        assertEquals(CalculatorEngine.Status.ERROR, engine.getStatus());
+        assertEquals("Biểu thức chưa hợp lệ", engine.getErrorMessage());
+    }
+
+    @Test
+    public void clearResetsErrorMessage() {
+        type("5/0=");
+        engine.clear();
+        assertEquals("", engine.getErrorMessage());
+        assertEquals(CalculatorEngine.Status.EDITING, engine.getStatus());
+    }
+
+    @Test
+    public void deleteAfterErrorResetsErrorMessage() {
+        type("5/0=");
+        engine.pressDelete();
+        assertEquals("", engine.getErrorMessage());
+        assertEquals(CalculatorEngine.Status.EDITING, engine.getStatus());
+    }
+
+    @Test
+    public void successfulCalculationHasNoErrorMessage() {
+        type("5/0=");
+        engine.clear();
+        type("2+3=");
+        assertEquals("", engine.getErrorMessage());
+    }
+
+    @Test
+    public void restoreBringsBackFullState() {
+        type("4+6=");
+        String expr = engine.getExpression();
+        CalculatorEngine.Status status = engine.getStatus();
+        String formatted = engine.getFormattedResult();
+        String raw = engine.getRawResult();
+        boolean degree = engine.isDegreeMode();
+
+        CalculatorEngine fresh = new CalculatorEngine();
+        fresh.restore(expr, status, formatted, raw, "", degree);
+
+        assertEquals("4+6", fresh.getExpression());
+        assertEquals("=10", fresh.getFormattedResult());
+        assertEquals(CalculatorEngine.Status.RESULT, fresh.getStatus());
+        assertEquals(degree, fresh.isDegreeMode());
     }
 }

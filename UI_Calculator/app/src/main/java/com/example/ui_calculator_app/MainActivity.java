@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -28,10 +28,16 @@ public class MainActivity extends AppCompatActivity
             R.id.btnClear, R.id.btnDelete, R.id.btnEqual,
             R.id.btnE, R.id.btnMu, R.id.btnSin, R.id.btnDeg
     };
+    private static final String KEY_EXPRESSION = "state_expression";
+    private static final String KEY_STATUS = "state_status";
+    private static final String KEY_FORMATTED = "state_formatted";
+    private static final String KEY_RAW = "state_raw";
+    private static final String KEY_ERROR = "state_error";
+    private static final String KEY_DEGREE = "state_degree";
 
-    private final CalculatorActivity engine = new CalculatorActivity();
+    private final CalculatorEngine engine = new CalculatorEngine();
     private InputTimeout timeout;
-
+    private TextView txtAngleMode;
     private TextView txtExpression;
     private TextView txtResult;
     private TextView txtPercent;
@@ -53,7 +59,42 @@ public class MainActivity extends AppCompatActivity
         bindViews();
         bindKeys();
         timeout = new InputTimeout(this);
+        if (savedInstanceState != null) restoreState(savedInstanceState);
+        syncTimeout();
         render();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(KEY_EXPRESSION, engine.getExpression());
+        outState.putString(KEY_STATUS, engine.getStatus().name());
+        outState.putString(KEY_FORMATTED, engine.getFormattedResult());
+        outState.putString(KEY_RAW, engine.getRawResult());
+        outState.putString(KEY_ERROR, engine.getErrorMessage());
+        outState.putBoolean(KEY_DEGREE, engine.isDegreeMode());
+    }
+
+    private void restoreState(Bundle state) {
+        String statusName = state.getString(KEY_STATUS);
+        if (statusName == null) return;
+        engine.restore(
+                state.getString(KEY_EXPRESSION, ""),
+                CalculatorEngine.Status.valueOf(statusName),
+                state.getString(KEY_FORMATTED, ""),
+                state.getString(KEY_RAW, ""),
+                state.getString(KEY_ERROR, ""),
+                state.getBoolean(KEY_DEGREE, true));
+    }
+
+    private void updateAngleModeUi() {
+        if (engine.isDegreeMode()) {
+            txtAngleMode.setText("Chế độ góc: độ (deg)");
+            btnDeg.setText("rad");
+        } else {
+            txtAngleMode.setText("Chế độ góc: radian (rad)");
+            btnDeg.setText("deg");
+        }
     }
 
     private void bindViews() {
@@ -62,6 +103,7 @@ public class MainActivity extends AppCompatActivity
         txtPercent = findViewById(R.id.txtPercent);
         pbTimeout = findViewById(R.id.pbTimeout);
         btnDeg = findViewById(R.id.btnDeg);
+        txtAngleMode = findViewById(R.id.txtAngleMode);
     }
 
     private void bindKeys() {
@@ -103,7 +145,7 @@ public class MainActivity extends AppCompatActivity
     private void syncTimeout() {
         if (engine.isEditingNonEmpty()) {
             timeout.startIfNotRunning();
-        } else if (engine.getStatus() != CalculatorActivity.Status.EDITING) {
+        } else if (engine.getStatus() != CalculatorEngine.Status.EDITING) {
             timeout.pause();
         } else {
             timeout.stop();
@@ -126,7 +168,7 @@ public class MainActivity extends AppCompatActivity
     private void render() {
         renderExpression();
         renderResult();
-        btnDeg.setText(engine.isDegreeMode() ? "rad" : "deg");
+        updateAngleModeUi();
     }
 
     private void renderExpression() {
@@ -142,8 +184,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void renderResult() {
-        if (engine.getStatus() == CalculatorActivity.Status.ERROR) {
-            txtResult.setText("Lỗi");
+        if (engine.getStatus() == CalculatorEngine.Status.ERROR) {
+            txtResult.setText(engine.getErrorMessage());
         } else {
             txtResult.setText(engine.getFormattedResult());
         }
