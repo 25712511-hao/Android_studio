@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Ảnh Lật</string>
+    <string name="gallery_title">Thư viện ảnh</string>
+    <string name="photo_count">%1$d ảnh</string>
+    <string name="photo_label">Ảnh</string>
+    <string name="open_photo">Mở ảnh %1$s</string>
+    <string name="preview_photo">Ảnh %1$s. Chạm để xem nội dung.</string>
+    <string name="show_note">↻  Lật để xem nội dung</string>
+    <string name="show_photo">↶  Lật về mặt ảnh</string>
+    <string name="close">Đóng ảnh</string>
+    <string name="share">Chia sẻ ảnh</string>
+    <string name="allow_view">Cho phép xem</string>
+    <string name="share_blocked">Cần bật Cho phép xem để chia sẻ ảnh.</string>
+    <string name="share_failed">Không thể chia sẻ ảnh lúc này.</string>
+    <string name="share_text">%1$s · %2$s\n\n%3$s</string>
+
+    <string name="title_1">Dưới chân vách đá</string>
+    <string name="note_1">Ánh nắng cuối ngày chạm vào đỉnh vách đá trước khi rút khỏi thung lũng. Nhìn từ đồng cỏ, mép rừng thông ở phía dưới kéo thành một đường xanh đậm, còn phần đá phía trên vẫn giữ màu cam nhạt.\n\nTấm ảnh dọc giữ lại cả ba lớp của khung cảnh. Ở dưới cùng là thảm cỏ và một đàn hươu. Ở giữa là rừng thông. Ngẩng lên cao mới thấy ánh nắng trên vách đá.\n\nKhi xem ảnh thu nhỏ, mắt thường nhìn ngay vào phần sáng nhất. Khi mở ảnh lớn, những con hươu dưới đồng cỏ mới dễ thấy. Chúng cũng giúp hình dung vách đá phía sau cao đến mức nào.\n\nNhìn kỹ phần mép rừng, có thể thấy nắng đã tắt gần hết ở thung lũng. Chỉ còn phần đỉnh hứng nắng. Chính sự chênh lệch ánh sáng này giữ lại cảm giác chuyển từ chiều sang tối trong cùng một khung hình.</string>
+    <string name="title_2">Thung lũng xanh</string>
+    <string name="note_2">Những rặng thông ở tiền cảnh mở ra một thung lũng dài. Xa hơn là các dãy núi xanh nối nhau dưới những cụm mây trắng.</string>
+    <string name="title_3">Chèo thuyền trên hồ</string>
+    <string name="note_3">Một chiếc thuyền nhỏ lướt qua làn nước xanh ngọc. Vệt nước kéo dài phía sau thuyền làm nổi bật khoảng lặng giữa các vách núi.</string>
+    <string name="title_4">Mặt biển</string>
+    <string name="note_4">Khung hình được chụp sát mặt nước. Những gợn sóng xanh đậm gần máy ảnh dần tan ra khi tiến về đường chân trời.</string>
+    <string name="title_5">Căn nhà bên hồ</string>
+    <string name="note_5">Căn nhà gỗ nằm sát mép hồ, phía sau là rừng thông và dãy núi phủ mây. Mặt nước lặng phản chiếu cả màu trời lẫn bóng núi.</string>
+    <string name="title_6">Lối mòn trong rừng</string>
+    <string name="note_6">Ánh sáng lọt qua những thân cây cao và rơi xuống lối đất. Con đường hẹp khuất sau một khúc quanh giữa tán lá xanh.</string>
+    <string name="title_7">Giữa những vách đá đỏ</string>
+    <string name="note_7">Hai vạch vàng dẫn mắt theo con đường xuyên qua hẻm núi. Màu đỏ nâu của đá hai bên làm nổi bật phần trời nhạt phía trên.</string>
+    <string name="title_8">Sương trên đồng cỏ</string>
+    <string name="note_8">Nắng thấp chiếu xuyên lớp sương phủ trên đồng. Những cây đứng riêng lẻ hiện thành bóng tối giữa các mảng sáng màu mật ong.</string>
+    <string name="title_9">Bầu trời đầy sao</string>
+    <string name="note_9">Dải Ngân Hà trải chéo phía trên rặng núi. Những đỉnh núi tối giữ đường viền của mặt đất, để các vì sao chiếm phần lớn khung hình.</string>
+    <string name="title_10">Mặt trời trên sống núi</string>
+    <string name="note_10">Mặt trời nằm sát đường chân trời. Các sống núi xếp thành từng lớp, từ đậm ở tiền cảnh đến nhạt dần trong ánh cam.</string>
+    <string name="title_11">Khúc quanh dưới mây</string>
+    <string name="note_11">Con đường nhỏ uốn qua sườn đồi xanh. Mây thấp che một phần dãy núi, trong khi ánh sáng vẫn lọt qua ở góc xa.</string>
+    <string name="title_12">Những mỏm đá xanh</string>
+    <string name="note_12">Các mỏm đá phủ cỏ nhô lên trên sườn núi. Một người đứng trên mỏm đá gần mép ảnh, nhỏ bé trước thung lũng phía sau.</string>
+</resources>
